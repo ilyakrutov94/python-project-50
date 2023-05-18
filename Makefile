@@ -1,6 +1,8 @@
 setup: build publish package-f_install
 gendiff:
 	poetry run gendiff
+start:
+	poetry run start
 install:
 	poetry install
 publish:

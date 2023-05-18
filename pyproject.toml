@@ -13,6 +13,7 @@ python = "^3.10"
 
 [tool.poetry.scripts]
 gendiff = "gendiff.scripts.gendiff:generate_diff"
+start = "gendiff.scripts.start:start"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.3.1"
