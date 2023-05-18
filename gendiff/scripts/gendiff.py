@@ -38,7 +38,7 @@ def string_creator(dict1, dict2):
         if keys2 not in list_of_keys1:
             string += ("+ " + keys2 + ':'
                        + ' ' + str(dict2[keys2]) + '\n')
-    return string
+    return string[:-1]
 
 
 def generate_diff(first_file, second_file):
@@ -47,7 +47,6 @@ def generate_diff(first_file, second_file):
             data1 = json.load(first_input)
             data2 = json.load(second_input)
             string = string_creator(data1, data2)
-            # print(string)
     return string
 
 

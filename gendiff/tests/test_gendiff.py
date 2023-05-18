@@ -1,4 +1,4 @@
-from gendiff.scripts.gendiff import generate_diff
+from gendiff.scripts.start import start
 import argparse
 
 parser = argparse.ArgumentParser(description='Compares two configuration'
@@ -10,12 +10,13 @@ args = parser.parse_args()
 
 
 def test_gendiff(path1, path2):
-    assert ('''- follow: False
-          host: hexlet.io
-        - proxy: 123.234.53.22
-        - timeout: 50
-        + timeout: 20
-        + verbose: True''') == generate_diff(path1, path2)
+    some_string = ("- follow: False\n"
+                   "  host: hexlet.io\n"
+                   "- proxy: 123.234.53.22\n"
+                   "- timeout: 50\n"
+                   "+ timeout: 20\n"
+                   "+ verbose: True")
+    assert some_string == start()
 
 
 if __name__ == '__main__':

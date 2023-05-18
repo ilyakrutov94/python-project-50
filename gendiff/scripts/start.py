@@ -2,7 +2,7 @@ from gendiff.scripts.gendiff import generate_diff
 import argparse
 
 
-def start():
+def start(path1, path2):
     parser = argparse.ArgumentParser(description='Compares two configuration'
                                      ' files and shows a difference.')
     parser.add_argument('first_file')
@@ -11,3 +11,4 @@ def start():
     args = parser.parse_args()
 
     print(generate_diff(args.first_file, args.second_file))
+    return generate_diff(args.first_file, args.second_file)
