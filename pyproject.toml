@@ -10,10 +10,12 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "^3.10"
+pyyaml = "^6.0"
 
 [tool.poetry.scripts]
 gendiff = "gendiff.scripts.gendiff:generate_diff"
 start = "gendiff.scripts.start:start"
+check = "gendiff.scripts.check:main"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.3.1"

@@ -1,16 +1,76 @@
 #!/usr/bin/env python3
 import json
-import argparse
-
-parser = argparse.ArgumentParser(description='Compares two configuration'
-                                 ' files and shows a difference.')
-parser.add_argument('first_file')
-parser.add_argument('second_file')
-parser.add_argument('-f', '--format', type=str, help='set format of output')
-args = parser.parse_args()
+import yaml
+import itertools
 
 
-def sorted_list_of_keys(dict1, dict2):
+# READ SECTION START
+def read_json(first_file, second_file):
+    with open(first_file, 'r') as first_input:
+        with open(second_file, 'r') as second_input:
+            data1 = json.load(first_input)
+            data2 = json.load(second_input)
+    return (data1, data2)
+
+
+def read_yaml(first_file, second_file):
+    with open(first_file, 'r') as first_input:
+        with open(second_file, 'r') as second_input:
+            data1 = yaml.load(first_input, Loader=yaml.FullLoader)
+            data2 = yaml.load(second_input, Loader=yaml.FullLoader)
+    return (data1, data2)
+# READ SECTION END
+
+
+# diff generation SECTION START
+def generate_diff(first_file, second_file):
+    if first_file.endswith('json'):
+        data1, data2 = read_json(first_file, second_file)
+        string = create_string(data1, data2)
+        return string
+    elif first_file.endswith('yaml') or first_file.endswith('yml'):
+        data1, data2 = read_yaml(first_file, second_file)
+        string = create_string(data1, data2)
+        return string
+    else:
+        return ('Wrong file format')
+
+
+def generate_diff_stylish(first_file, second_file):
+    if first_file.endswith('json'):
+        data1, data2 = read_json(first_file, second_file)
+        string = diff(data1, data2)
+        return stringify(string)
+    elif first_file.endswith('yaml') or first_file.endswith('yml'):
+        data1, data2 = read_yaml(first_file, second_file)
+        string = diff(data1, data2)
+        return stringify(string)
+    else:
+        return ('Wrong file format')
+# diff generation SECTION END
+
+
+# diff calculate SECTION START
+def diff(source1, source2):
+    all_keys = sorted(list(source1.keys() | source2.keys()))
+    result = {}
+    for key in all_keys:
+        if key not in source1:
+            result[('+ ' + key)] = source2[key]
+        elif key not in source2:
+            result[('- ' + key)] = source1[key]
+        elif source1[key] == source2[key]:
+            result[('  ' + key)] = str(source1[key])
+        else:
+            if type(source1[key]) == dict and type(source2[key]) == dict:
+                result[('  ' + key)] = diff(source1[key], source2[key])
+            else:
+                result[('- ' + key)] = source1[key]
+                result[('+ ' + key)] = source2[key]
+    return result
+
+
+def sort_list_of_keys(dict1, dict2):
     list_of_keys1 = list(dict1.keys())
     list_of_keys1.sort()
     list_of_keys2 = list(dict2.keys())
@@ -18,8 +78,8 @@ def sorted_list_of_keys(dict1, dict2):
     return (list_of_keys1, list_of_keys2)
 
 
-def string_creator(dict1, dict2):
-    list_of_keys1, list_of_keys2 = sorted_list_of_keys(dict1, dict2)
+def create_string(dict1, dict2):
+    list_of_keys1, list_of_keys2 = sort_list_of_keys(dict1, dict2)
     string = ''
     for keys1 in list_of_keys1:
         if keys1 not in list_of_keys2:
@@ -39,16 +99,31 @@ def string_creator(dict1, dict2):
             string += ("+ " + keys2 + ':'
                        + ' ' + str(dict2[keys2]) + '\n')
     return string[:-1]
+# diff calculate SECTION END
 
 
-def generate_diff(first_file, second_file):
-    with open(first_file, 'r') as first_input:
-        with open(second_file, 'r') as second_input:
-            data1 = json.load(first_input)
-            data2 = json.load(second_input)
-            string = string_creator(data1, data2)
-    return string
+# rendering SECTION START
+def stringify(value, replacer='.', spaces_count=4):
+    MOVEOUT = 2
+    convert = {False: 'false',
+               None: 'null',
+               True: 'true'
+               }
 
+    def iter_(current_value, depth):
+        if not isinstance(current_value, dict):
+            if current_value in convert:
+                return convert[current_value]
+            else:
+                return str(current_value)
+        deep_indent_size = depth + spaces_count
+        deep_indent = replacer * (deep_indent_size - MOVEOUT)
+        current_indent = replacer * (depth)
+        lines = []
+        for key, val in current_value.items():
+            lines.append(f'{deep_indent}{key}: {iter_(val, deep_indent_size)}')
+        result = itertools.chain('{', lines, [current_indent + "}"])
+        return "\n".join(result)
 
-if __name__ == '__main__':
-    generate_diff(args.first_file, args.second_file)
+    return iter_(value, 0)
+# rendering SECTION END

@@ -3,6 +3,12 @@ gendiff:
 	poetry run gendiff
 start:
 	poetry run start
+start1:
+	poetry run start gendiff/tests/fixtures/file1.json gendiff/tests/fixtures/file2.json
+start2:
+	poetry run start gendiff/tests/fixtures/file1.yml gendiff/tests/fixtures/file2.yml
+start3:
+	poetry run start gendiff/tests/fixtures/file3.json gendiff/tests/fixtures/file4.json
 install:
 	poetry install
 publish:
