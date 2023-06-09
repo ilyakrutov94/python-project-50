@@ -1,4 +1,4 @@
-from gendiff.scripts.start import start
+from gendiff.scripts.cli import start
 import json
 import argparse
 
