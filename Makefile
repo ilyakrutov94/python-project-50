@@ -9,6 +9,8 @@ start2:
 	poetry run cli gendiff/tests/fixtures/file1.yml gendiff/tests/fixtures/file2.yml
 start3:
 	poetry run cli gendiff/tests/fixtures/file3.json gendiff/tests/fixtures/file4.json
+test:
+	poetry run test_gendiff gendiff/tests/fixtures/file3.json
 install:
 	poetry install
 publish:
