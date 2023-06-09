@@ -47,6 +47,41 @@ def generate_diff_stylish(first_file, second_file):
         return stringify(string)
     else:
         return ('Wrong file format')
+
+
+def generate_diff_plain(first_file, second_file):
+    if first_file.endswith('json'):
+        data1, data2 = read_json(first_file, second_file)
+        string = diff_plain(data1, data2)
+        return stringify_plain(string)
+    elif first_file.endswith('yaml') or first_file.endswith('yml'):
+        data1, data2 = read_yaml(first_file, second_file)
+        string = diff_plain(data1, data2)
+        return stringify_plain(string)
+    else:
+        return ('Wrong file format')
+
+
+def generate_diff_json(first_file, second_file):
+    if first_file.endswith('json'):
+        data1, data2 = read_json(first_file, second_file)
+        string = diff(data1, data2)
+        return json.dumps(string, indent=4)
+    else:
+        return ('Wrong file format')
+
+
+def generate_diff_raw(first_file, second_file):
+    if first_file.endswith('json'):
+        data1, data2 = read_json(first_file, second_file)
+        string = diff(data1, data2)
+        return string
+    elif first_file.endswith('yaml') or first_file.endswith('yml'):
+        data1, data2 = read_yaml(first_file, second_file)
+        string = diff(data1, data2)
+        return string
+    else:
+        return ('Wrong file format')
 # diff generation SECTION END
 
 
@@ -67,6 +102,51 @@ def diff(source1, source2):
             else:
                 result[('- ' + key)] = source1[key]
                 result[('+ ' + key)] = source2[key]
+    return result
+
+
+def diff_plain(source1, source2, final_key=''):
+    all_keys = sorted(list(source1.keys() | source2.keys()))
+    result = {}
+    for key in all_keys:
+        if final_key:
+            new_key = final_key + '.' + key
+        else:
+            new_key = key
+        if key not in source1:
+            operation = 'added'
+            new_value = source2[key]
+            if isinstance(new_value, dict):
+                new_value = '[complex value]'
+            old_value = ''
+            result[new_key] = [operation, new_value, old_value]
+        elif key not in source2:
+            operation = 'removed'
+            new_value = ''
+            old_value = ''
+            result[new_key] = [operation, new_value, old_value]
+        elif source1[key] == source2[key]:
+            operation = 'unchanged'
+            new_value = source2[key]
+            if isinstance(new_value, dict):
+                new_value = '[complex value]'
+            old_value = source2[key]
+            if isinstance(old_value, dict):
+                old_value = '[complex value]'
+            result[new_key] = [operation, new_value, old_value]
+        else:
+            if isinstance(source1[key], dict) and\
+                 isinstance(source2[key], dict):
+                result.update(diff_plain(source1[key], source2[key], new_key))
+            else:
+                operation = 'updated'
+                new_value = source2[key]
+                if isinstance(new_value, dict):
+                    new_value = '[complex value]'
+                old_value = source1[key]
+                if isinstance(old_value, dict):
+                    old_value = '[complex value]'
+                result[new_key] = [operation, new_value, old_value]
     return result
 
 
@@ -126,4 +206,46 @@ def stringify(value, replacer='.', spaces_count=4):
         return "\n".join(result)
 
     return iter_(value, 0)
+
+
+def stringify_plain(value):
+    convert = {False: 'false',
+               None: 'null',
+               True: 'true'
+               }
+    exceptions = ("false", "null", "true", "[complex value]")
+    lines = []
+    for key, value in value.items():
+        if value[0] == 'added':
+            new_value = value[1]
+            if new_value in convert:
+                new_value = convert[new_value]
+            if new_value in exceptions:
+                lines.append(f"Property '{key}' was added "
+                             f"with value: {new_value}")
+            else:
+                lines.append(f"Property '{key}' was added "
+                             f"with value: '{new_value}'")
+        if value[0] == 'removed':
+            lines.append(f"Property '{key}' was removed")
+        if value[0] == 'updated':
+            old_value = value[2]
+            new_value = value[1]
+            if new_value in convert:
+                new_value = convert[new_value]
+            if old_value in convert:
+                old_value = convert[old_value]
+            if new_value in exceptions and old_value not in exceptions:
+                lines.append(f"Property '{key}' was updated. "
+                             f"From '{old_value}' to {new_value}")
+            elif old_value in exceptions and new_value not in exceptions:
+                lines.append(f"Property '{key}' was updated. "
+                             f"From {old_value} to '{new_value}'")
+            elif old_value and new_value in exceptions:
+                lines.append(f"Property '{key}' was updated. "
+                             f"From {old_value} to {new_value}")
+            else:
+                lines.append(f"Property '{key}' was updated. "
+                             f"From '{old_value}' to '{new_value}'")
+    return "\n".join(lines)
 # rendering SECTION END
