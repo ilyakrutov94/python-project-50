@@ -1,7 +1,7 @@
-from gendiff.formatters.json import make_json
-from gendiff.formatters.plain import make_plain
-from gendiff.formatters.stylish import make_stylish
-from gendiff.compare_dicts import compare_dicts, diff
+from gendiff.formatters.format_json import make_json
+from gendiff.formatters.format_plain import make_plain
+from gendiff.formatters.format_stylish import make_stylish
+from gendiff.diff_tree import build_diff_tree
 from gendiff.file_parser import parse_file
 
 FORMATTERS = {
@@ -30,15 +30,7 @@ def generate_diff(first_file: str, second_file: str,
 
     first_file = parse_file(first_file)
     second_file = parse_file(second_file)
-
-    if formatter == "plain":
-        compared_files = compare_dicts(first_file, second_file)
-        styled_data = formatter_function(compared_files)
-    elif formatter == "stylish":
-        compared_files = diff(first_file, second_file)
-        styled_data = formatter_function(compared_files)
-    elif formatter == "json":
-        compared_files = diff(first_file, second_file)
-        styled_data = formatter_function(compared_files)
+    compared_files = build_diff_tree(first_file, second_file)
+    styled_data = formatter_function(compared_files)
 
     return styled_data

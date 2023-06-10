@@ -1,6 +1,4 @@
 setup: build publish install
-test-cov:
-	poetry run pytest --cov=gendiff --cov-report xml
 publish:
 	poetry publish --dry-run
 build:
@@ -12,8 +10,8 @@ install:
 test:
 	poetry run pytest -vv
 main1:
-	poetry run python3 gendiff/scripts/main.py gendiff/tests/fixtures/json_yaml/file3.json gendiff/tests/fixtures/json_yaml/file4.json -f plain
+	poetry run python3 gendiff/scripts/main.py gendiff/tests/fixtures/json_yaml/filepath1.json gendiff/tests/fixtures/json_yaml/filepath2.json -f plain
 main2:
-	poetry run python3 gendiff/scripts/main.py gendiff/tests/fixtures/json_yaml/file3.json gendiff/tests/fixtures/json_yaml/file4.json -f stylish
+	poetry run python3 gendiff/scripts/main.py gendiff/tests/fixtures/json_yaml/filepath1.json gendiff/tests/fixtures/json_yaml/filepath2.json -f stylish
 main3:
-	poetry run python3 gendiff/scripts/main.py gendiff/tests/fixtures/json_yaml/file3.json gendiff/tests/fixtures/json_yaml/file4.json -f json
+	poetry run python3 gendiff/scripts/main.py gendiff/tests/fixtures/json_yaml/filepath1.json gendiff/tests/fixtures/json_yaml/filepath2.json -f json
