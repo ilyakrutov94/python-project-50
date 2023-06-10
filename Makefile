@@ -1,27 +1,19 @@
-setup: build publish package-f_install
-gendiff:
-	poetry run cli
-start:
-	poetry run cli
-start1:
-	poetry run cli gendiff/tests/fixtures/file1.json gendiff/tests/fixtures/file2.json
-start2:
-	poetry run cli gendiff/tests/fixtures/file1.yml gendiff/tests/fixtures/file2.yml
-start3:
-	poetry run cli gendiff/tests/fixtures/file3.json gendiff/tests/fixtures/file4.json
-test:
-	poetry run test_gendiff gendiff/tests/fixtures/file3.json
-install:
-	poetry install
+setup: build publish install
+test-cov:
+	poetry run pytest --cov=gendiff --cov-report xml
 publish:
 	poetry publish --dry-run
 build:
 	poetry build
-package-user_install:
-	python3 -m pip install --user dist/*.whl
-package-install:
-	python3 -m pip install dist/*.whl
-package-f_user_install:
-	pip install --user dist/*.whl --force-reinstall
-package-f_install:
+lint:
+	poetry run flake8 gendiff/
+install:
 	pip install dist/*.whl --force-reinstall
+test:
+	poetry run pytest -vv
+main1:
+	poetry run python3 gendiff/scripts/main.py gendiff/tests/fixtures/json_yaml/file3.json gendiff/tests/fixtures/json_yaml/file4.json -f plain
+main2:
+	poetry run python3 gendiff/scripts/main.py gendiff/tests/fixtures/json_yaml/file3.json gendiff/tests/fixtures/json_yaml/file4.json -f stylish
+main3:
+	poetry run python3 gendiff/scripts/main.py gendiff/tests/fixtures/json_yaml/file3.json gendiff/tests/fixtures/json_yaml/file4.json -f json
