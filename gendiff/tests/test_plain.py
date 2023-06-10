@@ -1,4 +1,3 @@
-from gendiff.formatters.plain import make_plain, _get_value
 from gendiff import generate_diff
 from gendiff.tests.fixtures.compare_results.plain_results \
     import file1_file2_json, \
@@ -26,5 +25,39 @@ def test_gendiff_yaml():
     input_data2 = ("gendiff/tests/fixtures/json_yaml/file3.yaml",
                    "gendiff/tests/fixtures/json_yaml/file4.yaml")
     expected2 = file3_file4_yaml
+
+    assert generate_diff(*input_data2, "plain") == expected2
+
+
+def test_gendiff_json():
+    input_data1 = ("gendiff/tests/fixtures/json_yaml/file1.json",
+                   "gendiff/tests/fixtures/json_yaml/file2.json")
+    expected1 = file1_file2_json
+
+    assert generate_diff(*input_data1, "plain") == expected1
+
+    input_data2 = ("gendiff/tests/fixtures/json_yaml/file3.json",
+                   "gendiff/tests/fixtures/json_yaml/file4.json")
+    expected2 = file3_file4_json
+
+    assert generate_diff(*input_data2, "plain") == expected2
+
+    input_data3 = ("gendiff/tests/fixtures/json_yaml/file5.json",
+                   "gendiff/tests/fixtures/json_yaml/file6.json")
+    expected3 = file5_file6_json
+
+    assert generate_diff(*input_data3, "plain") == expected3
+
+
+def test_gendiff_json_empty():
+    input_data1 = ("gendiff/tests/fixtures/json_yaml/file3.json",
+                   "gendiff/tests/fixtures/json_yaml/file3_1.json")
+    expected1 = file3_file3_1_json
+
+    assert generate_diff(*input_data1, "plain") == expected1
+
+    input_data2 = ("gendiff/tests/fixtures/json_yaml/file3_1.json",
+                   "gendiff/tests/fixtures/json_yaml/file3.json")
+    expected2 = file3_1_file3_json
 
     assert generate_diff(*input_data2, "plain") == expected2

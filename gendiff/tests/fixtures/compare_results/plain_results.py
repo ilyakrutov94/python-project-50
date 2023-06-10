@@ -12,10 +12,10 @@ Property 'group2' was removed
 Property 'group3' was added with value: [complex value]"""
 
 file1_file2_yaml = \
-    """Property 'Cheesemonger' was updated. From ['Blue cheese', 'Feta'] to ['Red cheese', 'Feta']"""
+    """Property 'Cheesemonger' was updated. From ['Blue cheese', 'Feta'] to ['Red cheese', 'Feta']""" # noqa
 
 file3_file4_yaml = \
-    """Property 'development.database' was updated. From 'notmyapp_development' to 'myapp_development'"""
+    """Property 'development.database' was updated. From 'notmyapp_development' to 'myapp_development'""" # noqa
 
 file1_file2_json = \
     """Property 'follow' was removed
@@ -28,8 +28,7 @@ file3_file4_json = \
 Property 'type' was updated. From 'primary' to 'secondary'"""
 
 file5_file6_json = \
-    """Property 'date' was updated.
-     From '2017-07-21T10:30:34' to '2018-07-21T10:30:34'
+    """Property 'date' was updated. From '2017-07-21T10:30:34' to '2018-07-21T10:30:34'
 Property 'guid.rendered' was updated. From 'https://www.sitepoint.com/?p=157538' to 'http://www.sitepoint.com/?p=157538'
 Property 'modified' was updated. From '2017-07-23T21:56:35' to '2018-07-23T21:56:35'
 Property 'title.rendered' was updated. From 'Why the IoT Threatens Your WordPress Site (and How to Fix It)' to 'Why the IoT Threatens Your Tilda Site (and How to Fix It)'""" # noqa
