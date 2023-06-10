@@ -26,18 +26,18 @@ def test_gendiff_json():
     assert generate_diff(*input_data3) == expected3
 
 
-# def test_gendiff_yaml():
-    # input_data1 = ("gendiff/tests/fixtures/json_yaml/file1.yaml",
-    #                "gendiff/tests/fixtures/json_yaml/file2.yaml")
-    # expected1 = file1_file2_yaml
+def test_gendiff_yaml():
+    input_data1 = ("gendiff/tests/fixtures/json_yaml/file1.yaml",
+                   "gendiff/tests/fixtures/json_yaml/file2.yaml")
+    expected1 = file1_file2_yaml
 
-    # assert generate_diff(*input_data1) == expected1
+    assert generate_diff(*input_data1) == expected1
 
-    # input_data2 = ("gendiff/tests/fixtures/json_yaml/file3.yaml",
-    #                "gendiff/tests/fixtures/json_yaml/file4.yaml")
-    # expected2 = file3_file4_yaml
+    input_data2 = ("gendiff/tests/fixtures/json_yaml/file3.yaml",
+                   "gendiff/tests/fixtures/json_yaml/file4.yaml")
+    expected2 = file3_file4_yaml
 
-    # assert generate_diff(*input_data2) == expected2
+    assert generate_diff(*input_data2) == expected2
 
 
 def test_gendiff_wrong_file_name():
