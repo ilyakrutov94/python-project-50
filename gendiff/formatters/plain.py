@@ -21,22 +21,12 @@ def make_plain(value: dict) -> str:
                              f"with value: {new_value}")
             else:
                 lines.append(f"Property '{path}' was added "
-                             f"with value: '{new_value}'")
+                             f"with value: {new_value}")
         if operation == 'removed':
             lines.append(f"Property '{path}' was removed")
         if operation == 'updated':
-            if new_value in EXCEPTIONS and old_value not in EXCEPTIONS:
-                lines.append(f"Property '{path}' was updated. "
-                             f"From '{old_value}' to {new_value}")
-            elif old_value in EXCEPTIONS and new_value not in EXCEPTIONS:
-                lines.append(f"Property '{path}' was updated. "
-                             f"From {new_value} to '{new_value}'")
-            elif old_value and new_value in EXCEPTIONS:
-                lines.append(f"Property '{path}' was updated. "
-                             f"From {old_value} to {new_value}")
-            else:
-                lines.append(f"Property '{path}' was updated. "
-                             f"From '{old_value}' to '{new_value}'")
+            lines.append(f"Property '{path}' was updated. "
+                         f"From {old_value} to {new_value}")
     return "\n".join(lines)
 
 
@@ -57,6 +47,6 @@ def _get_value(value):
             True: 'true',
             None: 'null',
         }.get(value)
-    if isinstance(value, int):
+    if isinstance(value, int) or isinstance(value, list):
         return value
     return f'\'{value}\''
