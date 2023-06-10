@@ -13,8 +13,8 @@ def make_plain(value: dict) -> str:
     lines = []
     for path, value in value.items():
         operation = value[0]
-        new_value = _convert_bool_json(_convert_complex(value[1]))
-        old_value = _convert_bool_json(_convert_complex(value[2]))
+        new_value = _get_value(value[1])
+        old_value = _get_value(value[2])
         if operation == 'added':
             if new_value in EXCEPTIONS:
                 lines.append(f"Property '{path}' was added "
@@ -40,24 +40,23 @@ def make_plain(value: dict) -> str:
     return "\n".join(lines)
 
 
-def _convert_bool_json(source: str) -> str:
+def _get_value(value):
     '''
-    converts False, None, True in Python
-    to false, null, true in json
+    converts dict_values into:
+    1) '[complex value]' for dict;
+    2) false, true for bool;
+    3) null for None;
+    4) value without '' for int
+    5) 'value' for others
     '''
-    CONVERT = {False: 'false',
-               None: 'null',
-               True: 'true'
-               }
-    if source in CONVERT:
-        return CONVERT[source]
-    return source
-
-
-def _convert_complex(source: str | list) -> str:
-    '''
-    converts dict_values into '[complex value]'
-    '''
-    if isinstance(source, dict):
+    if isinstance(value, dict):
         return '[complex value]'
-    return source
+    if isinstance(value, bool) or value is None:
+        return {
+            False: 'false',
+            True: 'true',
+            None: 'null',
+        }.get(value)
+    if isinstance(value, int):
+        return value
+    return f'\'{value}\''

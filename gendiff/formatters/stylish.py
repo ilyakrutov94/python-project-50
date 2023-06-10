@@ -34,10 +34,10 @@ def _convert_bool_json(source: str) -> str:
     converts False, None, True in Python
     to false, null, true in json
     '''
-    CONVERT = {False: 'false',
-               None: 'null',
-               True: 'true'
-               }
-    if source in CONVERT:
-        return CONVERT[source]
+    if isinstance(source, bool) or source is None:
+        return {
+            False: 'false',
+            True: 'true',
+            None: 'null',
+        }.get(source)
     return source
