@@ -1,6 +1,8 @@
 ### Hexlet tests and linter status:
 [![Maintainability](https://api.codeclimate.com/v1/badges/4ffe5f9ae27eef5196c8/maintainability)](https://codeclimate.com/github/ilyakrutov94/python-project-50/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/4ffe5f9ae27eef5196c8/test_coverage)](https://codeclimate.com/github/ilyakrutov94/python-project-50/test_coverage)
+[![Test and linter check](https://github.com/ilyakrutov94/python-project-50/actions/workflows/pyci.yml/badge.svg)](https://github.com/ilyakrutov94/python-project-50/actions/workflows/pyci.yml)
+[![hexlet-check](https://github.com/ilyakrutov94/python-project-50/actions/workflows/hexlet-check.yml/badge.svg?branch=main)](https://github.com/ilyakrutov94/python-project-50/actions/workflows/hexlet-check.yml)
 
 Вычислитель отличий – программа, определяющая разницу между двумя файлами.
 
