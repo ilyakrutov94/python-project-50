@@ -1,11 +1,13 @@
-setup: build publish install
+setup: build publish install_f
+install:
+	poetry install
 publish:
 	poetry publish --dry-run
 build:
 	poetry build
 lint:
 	poetry run flake8 gendiff/
-install:
+install_f:
 	pip install dist/*.whl --force-reinstall
 test:
 	poetry run pytest
