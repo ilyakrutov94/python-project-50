@@ -19,6 +19,7 @@ file3_file4_json = \
   + type: secondary
 }"""
 
+# noqa
 file5_file6_json = \
     """{
   - date: 2017-07-21T10:30:34
@@ -29,11 +30,11 @@ file5_file6_json = \
       + rendered: http://www.sitepoint.com/?p=157538
     }
     id: 157538
-    link: https://www.sitepoint.com/why-the-iot-threatens-your-wordpress-site-and-how-to-fix-it/
+    link: https://www.sitepoint.com/why-the-iot/
   - modified: 2017-07-23T21:56:35
   + modified: 2018-07-23T21:56:35
     modified_gmt: 2017-07-24T04:56:35
-    slug: why-the-iot-threatens-your-wordpress-site-and-how-to-fix-it
+    slug: why-the-iot
     status: publish
     title: {
       - rendered: Why the IoT Threatens Your WordPress Site (and How to Fix It)

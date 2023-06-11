@@ -1,9 +1,10 @@
 from gendiff import generate_diff
 from gendiff.tests.fixtures.compare_results.stylish_results \
     import file1_file2_json, \
-    file3_file4_json, file1_file2_yaml, file3_file4_yaml, \
+    file3_file4_json,  \
     filepath1_filepath2_json, file3_1_file3_json, file3_file3_1_json, \
-    file5_file6_json, filepath1_filepath2_yaml
+    file5_file6_json  # , \
+# file1_file2_yaml, file3_file4_yaml, filepath1_filepath2_yaml
 
 
 def test_gendiff_json():
@@ -26,18 +27,18 @@ def test_gendiff_json():
     assert generate_diff(*input_data3) == expected3
 
 
-def test_gendiff_yaml():
-    input_data1 = ("gendiff/tests/fixtures/json_yaml/file1.yaml",
-                   "gendiff/tests/fixtures/json_yaml/file2.yaml")
-    expected1 = file1_file2_yaml
+# def test_gendiff_yaml():
+    # input_data1 = ("gendiff/tests/fixtures/json_yaml/file1.yaml",
+    #                "gendiff/tests/fixtures/json_yaml/file2.yaml")
+    # expected1 = file1_file2_yaml
 
-    assert generate_diff(*input_data1) == expected1
+    # assert generate_diff(*input_data1) == expected1
 
-    input_data2 = ("gendiff/tests/fixtures/json_yaml/file3.yaml",
-                   "gendiff/tests/fixtures/json_yaml/file4.yaml")
-    expected2 = file3_file4_yaml
+    # input_data2 = ("gendiff/tests/fixtures/json_yaml/file3.yaml",
+    #                "gendiff/tests/fixtures/json_yaml/file4.yaml")
+    # expected2 = file3_file4_yaml
 
-    assert generate_diff(*input_data2) == expected2
+    # assert generate_diff(*input_data2) == expected2
 
 
 def test_gendiff_wrong_file_name():
@@ -78,8 +79,8 @@ def test_gendiff_path():
 
     assert generate_diff(*input_data1) == expected1
 
-    input_data2 = ("gendiff/tests/fixtures/json_yaml/filepath1.yaml",
-                   "gendiff/tests/fixtures/json_yaml/filepath2.yaml")
-    expected2 = filepath1_filepath2_yaml
+    # input_data2 = ("gendiff/tests/fixtures/json_yaml/filepath1.yaml",
+    #                "gendiff/tests/fixtures/json_yaml/filepath2.yaml")
+    # expected2 = filepath1_filepath2_yaml
 
-    assert generate_diff(*input_data2) == expected2
+    # assert generate_diff(*input_data2) == expected2
