@@ -8,7 +8,7 @@
 
 ## Tools:
 + **poetry**
-+ **python = "^3.10"**
++ **python = "^3.11"**
 ## Installation:
 ### Clone repository and use poetry:
     git clone git@github.com:ilyakrutov94/python-project-50.git
